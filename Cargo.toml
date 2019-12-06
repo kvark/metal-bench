@@ -26,5 +26,5 @@ features = ["objc_exception"]
 criterion = "0.3"
 
 [[bench]]
-name = "argument-buffer-creation"
+name = "benchmarks"
 harness = false

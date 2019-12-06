@@ -6,7 +6,7 @@ extern crate objc;
 use cocoa::foundation::NSAutoreleasePool;
 use metal::*;
 
-fn argbuf_create_benchmark(c: &mut criterion::Criterion) {
+fn device_ops(c: &mut criterion::Criterion) {
     let pool = unsafe { NSAutoreleasePool::new(cocoa::base::nil) };
     let device = Device::system_default().expect("no device found");
 
@@ -34,5 +34,21 @@ fn argbuf_create_benchmark(c: &mut criterion::Criterion) {
     }
 }
 
-criterion_group!(benches, argbuf_create_benchmark);
+fn command_ops(c: &mut criterion::Criterion) {
+    let pool = unsafe { NSAutoreleasePool::new(cocoa::base::nil) };
+
+    let device = Device::system_default().expect("no device found");
+    let command_queue = device.new_command_queue();
+    let command_buffer = command_queue.new_command_buffer();
+
+    c.bench_function("MTLCommandBuffer::new_compute_command_encoder", |b| b.iter(|| {
+        let encoder = command_buffer.new_compute_command_encoder();
+        encoder.end_encoding();
+    }));
+    unsafe {
+        let () = msg_send![pool, release];
+    }
+}
+
+criterion_group!(benches, device_ops, command_ops);
 criterion_main!(benches);
