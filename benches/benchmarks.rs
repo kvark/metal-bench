@@ -29,6 +29,7 @@ fn device_ops(c: &mut criterion::Criterion) {
     c.bench_function("MTLDevice::new_argument_encoder", |b| b.iter(|| {
         let _ = device.new_argument_encoder(&Array::from_slice(&descriptors));
     }));
+
     unsafe {
         let () = msg_send![pool, release];
     }
@@ -45,6 +46,14 @@ fn command_ops(c: &mut criterion::Criterion) {
         let encoder = command_buffer.new_compute_command_encoder();
         encoder.end_encoding();
     }));
+
+    let rp_desc = RenderPassDescriptor::new();
+
+    c.bench_function("MTLCommandBuffer::new_render_command_encoder", |b| b.iter(|| {
+        let encoder = command_buffer.new_render_command_encoder(&rp_desc);
+        encoder.end_encoding();
+    }));
+
     unsafe {
         let () = msg_send![pool, release];
     }
