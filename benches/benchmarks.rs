@@ -47,7 +47,13 @@ fn command_ops(c: &mut criterion::Criterion) {
         encoder.end_encoding();
     }));
 
+    let tex_desc = TextureDescriptor::new();
+    tex_desc.set_width(100);
+    tex_desc.set_height(100);
+    tex_desc.set_usage(MTLTextureUsage::RenderTarget);
+    let texture = device.new_texture(&tex_desc);
     let rp_desc = RenderPassDescriptor::new();
+    rp_desc.color_attachments().object_at(0).unwrap().set_texture(Some(&texture));
 
     c.bench_function("MTLCommandBuffer::new_render_command_encoder", |b| b.iter(|| {
         let encoder = command_buffer.new_render_command_encoder(&rp_desc);
