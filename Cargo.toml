@@ -1,0 +1,30 @@
+[package]
+name = "metal-bench"
+version = "0.1.0"
+description = "Rust bindings for Metal"
+documentation = "https://docs.rs/crate/metal"
+repository = "https://github.com/kvark/metal-bench"
+authors = ["Dzmitry Malyshau"]
+readme = "README.md"
+keywords = ["metal", "graphics", "benchmark"]
+license = "MIT"
+edition = "2018"
+publish = false
+
+[package.metadata.docs.rs]
+default-target = "x86_64-apple-darwin"
+
+[dependencies]
+cocoa = "0.19"
+metal = "0.17"
+
+[dependencies.objc]
+version = "0.2.4"
+features = ["objc_exception"]
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "argument-buffer-creation"
+harness = false
