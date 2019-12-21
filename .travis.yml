@@ -5,4 +5,4 @@ os:
   - osx
 
 script:
-  - cargo bench
+  - cargo bench --no-run

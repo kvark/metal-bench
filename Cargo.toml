@@ -1,8 +1,7 @@
 [package]
 name = "metal-bench"
 version = "0.1.0"
-description = "Rust bindings for Metal"
-documentation = "https://docs.rs/crate/metal"
+description = "Metal performance benchmark"
 repository = "https://github.com/kvark/metal-bench"
 authors = ["Dzmitry Malyshau"]
 readme = "README.md"
